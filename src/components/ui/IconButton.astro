@@ -1,0 +1,126 @@
+---
+import { cn } from "../../utils/cn";
+
+type Variant = "plain" | "outline" | "inverse";
+type Size = "sm" | "md" | "lg";
+type ButtonType = "button" | "submit" | "reset";
+
+interface Props {
+  /**
+   * Required accessible name for the control.
+   */
+  label: string;
+
+  variant?: Variant;
+  size?: Size;
+
+  href?: string;
+  type?: ButtonType;
+  disabled?: boolean;
+
+  target?: "_self" | "_blank" | "_parent" | "_top";
+  rel?: string;
+
+  pressed?: boolean;
+  expanded?: boolean;
+  controls?: string;
+
+  class?: string;
+}
+
+const {
+  label,
+  variant = "plain",
+  size = "md",
+  href,
+  type = "button",
+  disabled = false,
+  target,
+  rel,
+  pressed,
+  expanded,
+  controls,
+  class: className,
+} = Astro.props;
+
+if (!label.trim()) {
+  throw new Error("IconButton requires a non-empty accessible label.");
+}
+
+const baseClasses = cn(
+  "inline-flex shrink-0 items-center justify-center",
+  "rounded-full",
+  "transition duration-200 ease-ember",
+  "focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4",
+);
+
+const variantClasses = {
+  plain: cn(
+    "bg-transparent text-ink",
+    "hover:bg-oat",
+    "active:bg-brand",
+    "focus-visible:outline-clay",
+  ),
+
+  outline: cn(
+    "border border-ink bg-transparent text-ink",
+    "hover:bg-ink hover:text-canvas",
+    "active:translate-y-px",
+    "focus-visible:outline-clay",
+  ),
+
+  inverse: cn(
+    "bg-transparent text-canvas",
+    "hover:bg-canvas/10",
+    "active:bg-canvas/20",
+    "focus-visible:outline-canvas",
+  ),
+};
+
+const sizeClasses = {
+  sm: "size-10",
+  md: "size-11",
+  lg: "size-12",
+};
+
+const classes = cn(
+  baseClasses,
+  variantClasses[variant],
+  sizeClasses[size],
+  disabled && "pointer-events-none cursor-not-allowed opacity-50",
+  className,
+);
+
+const safeRel = target === "_blank" ? (rel ?? "noreferrer noopener") : rel;
+---
+
+{
+  href ? (
+    <a
+      href={disabled ? undefined : href}
+      class={classes}
+      aria-label={label}
+      aria-disabled={disabled ? "true" : undefined}
+      aria-pressed={pressed}
+      aria-expanded={expanded}
+      aria-controls={controls}
+      tabindex={disabled ? -1 : undefined}
+      target={target}
+      rel={safeRel}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      class={classes}
+      type={type}
+      disabled={disabled}
+      aria-label={label}
+      aria-pressed={pressed}
+      aria-expanded={expanded}
+      aria-controls={controls}
+    >
+      <slot />
+    </button>
+  )
+}

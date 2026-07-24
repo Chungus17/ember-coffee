@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./typography.css";
+
+/* -------------------------------------------------------------------------- */
+/* Global reset and document defaults                                         */
+/* -------------------------------------------------------------------------- */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 20rem;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+  }
+
+  :where(body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd) {
+    margin: 0;
+  }
+
+  :where(ul, ol) {
+    margin: 0;
+  }
+
+  :where(img, picture, video, canvas, svg) {
+    display: block;
+    max-width: 100%;
+  }
+
+  :where(img, picture, video) {
+    height: auto;
+  }
+
+  :where(a) {
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+  }
+
+  :where(button, input, textarea, select) {
+    color: inherit;
+  }
+
+  :where(button, [role="button"]) {
+    cursor: pointer;
+  }
+
+  :where(button:disabled, input:disabled, select:disabled, textarea:disabled) {
+    cursor: not-allowed;
+  }
+
+  ::selection {
+    background-color: var(--color-clay);
+    color: var(--color-canvas);
+  }
+
+  /*
+   * A visible global focus style acts as the fallback for every interactive
+   * element. Individual components can refine it with Tailwind ring classes,
+   * but must not remove it without providing an equivalent.
+   */
+  :focus-visible {
+    outline: 0.1875rem solid var(--color-clay);
+    outline-offset: 0.25rem;
+  }
+
+  /*
+   * Prevent anchored content from sitting directly beneath the future sticky
+   * header.
+   */
+  :target {
+    scroll-margin-block-start: 6rem;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Accessibility helpers                                                      */
+/* -------------------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+}
+
+/*
+ * Use on keyboard-accessible skip links.
+ */
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: var(--z-toast);
+  padding: 0.75rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-canvas);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 2rem));
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reduced-motion defaults                                                    */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}

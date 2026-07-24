@@ -1,0 +1,125 @@
+/*
+ * Ember design tokens
+ *
+ * This file owns:
+ * - Brand colors
+ * - Font-family names
+ * - Spacing extensions
+ * - Container widths
+ * - Border radii
+ * - Shadows
+ * - Transition timing
+ * - Application z-index layers
+ *
+ * Component layout and responsive styling belong in Tailwind classes.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Tailwind theme tokens                                                      */
+/* -------------------------------------------------------------------------- */
+
+@theme {
+  /* Brand colors */
+  --color-brand: #d95d38;
+  --color-ink: #291510;
+  --color-canvas: #f6e9d9;
+
+  /* Supporting colors */
+  --color-clay: #b94128;
+  --color-oat: #e6d4ba;
+  --color-sage: #79866d;
+  --color-cocoa: #493029;
+
+  /*
+   * Neutral semantic aliases.
+   *
+   * These make component intent clearer and give us room to alter the visual
+   * theme later without rewriting every component class.
+   */
+  --color-surface: var(--color-canvas);
+  --color-surface-muted: var(--color-oat);
+  --color-surface-dark: var(--color-ink);
+  --color-surface-dark-soft: var(--color-cocoa);
+
+  --color-text: var(--color-ink);
+  --color-text-inverse: var(--color-canvas);
+  --color-accent: var(--color-brand);
+  --color-accent-strong: var(--color-clay);
+  --color-origin: var(--color-sage);
+
+  /* Font families are loaded in the typography step */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", Arial, sans-serif;
+
+  /*
+   * Additional spacing values.
+   *
+   * Tailwind's default spacing scale remains available. These larger semantic
+   * values support Ember's generous editorial section rhythm.
+   */
+  --spacing-section-sm: 4rem;
+  --spacing-section: 6rem;
+  --spacing-section-lg: 8rem;
+
+  /* Named container widths */
+  --container-reading: 42rem;
+  --container-content: 64rem;
+  --container-site: 80rem;
+  --container-wide: 90rem;
+
+  /* Border radii */
+  --radius-control: 0.5rem;
+  --radius-panel: 0.875rem;
+  --radius-card: 1.25rem;
+  --radius-feature: 2rem;
+
+  /* Box shadows */
+  --shadow-card:
+    0 1px 2px rgb(41 21 16 / 0.06),
+    0 12px 32px rgb(41 21 16 / 0.08);
+
+  --shadow-card-hover:
+    0 2px 4px rgb(41 21 16 / 0.08),
+    0 20px 48px rgb(41 21 16 / 0.14);
+
+  --shadow-overlay:
+    0 24px 80px rgb(41 21 16 / 0.28);
+
+  /* Transition easing */
+  --ease-ember: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Application-only custom properties                                         */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  /*
+   * Durations are kept as standard CSS variables because components may use
+   * them in handcrafted CSS as well as Tailwind arbitrary-value utilities.
+   */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 450ms;
+
+  /*
+   * Named application layers are easier to reason about than scattered
+   * arbitrary z-index numbers.
+   */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 20;
+  --z-header: 30;
+  --z-overlay: 40;
+  --z-drawer: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+
+  /*
+   * Layout values used by handcrafted CSS.
+   *
+   * Tailwind utilities use the matching @theme container values above.
+   */
+  --container: 80rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}

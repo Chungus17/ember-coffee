@@ -1,0 +1,72 @@
+---
+import { cn } from "../../utils/cn";
+
+type Alignment = "left" | "center";
+type HeadingLevel = "h1" | "h2" | "h3";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  copy?: string;
+
+  align?: Alignment;
+  level?: HeadingLevel;
+
+  /**
+   * Controls the readable width of the heading block.
+   */
+  width?: "narrow" | "standard" | "wide";
+
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  copy,
+  align = "left",
+  level: HeadingTag = "h2",
+  width = "standard",
+  class: className,
+} = Astro.props;
+
+const alignmentClasses = {
+  left: "items-start text-left",
+  center: "mx-auto items-center text-center",
+};
+
+const widthClasses = {
+  narrow: "max-w-reading",
+  standard: "max-w-content",
+  wide: "max-w-site",
+};
+---
+
+<header
+  class={cn(
+    "flex flex-col gap-4",
+    alignmentClasses[align],
+    widthClasses[width],
+    className,
+  )}
+>
+  {
+    eyebrow && (
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-clay">
+        {eyebrow}
+      </p>
+    )
+  }
+
+  <HeadingTag>
+    {title}
+  </HeadingTag>
+
+  {
+    copy && (
+      <p class="measure-copy text-base leading-relaxed sm:text-lg">{copy}</p>
+    )
+  }
+
+  <slot />
+</header>

@@ -1,0 +1,89 @@
+---
+interface Props {
+  /**
+   * Page-specific title.
+   *
+   * Pass a concise page name. The Ember suffix is added automatically.
+   */
+  title: string;
+
+  /**
+   * Page-specific summary used for search and social previews.
+   */
+  description: string;
+
+  /**
+   * Optional Open Graph image.
+   *
+   * Accepts a site-relative path such as:
+   * /images/brand/ember-social.jpg
+   *
+   * It may also be an absolute URL.
+   */
+  image?: string;
+
+  /**
+   * Prevent indexing for unfinished or concept-only routes.
+   */
+  noindex?: boolean;
+}
+
+const { title, description, image, noindex = false } = Astro.props;
+
+const siteName = "Ember Specialty Coffee";
+
+const documentTitle = title === siteName ? title : `${title} | ${siteName}`;
+
+/*
+ * astro.config.mjs supplies Astro.site in production.
+ * Astro.url provides a safe local fallback during development.
+ */
+const siteBase = Astro.site ?? Astro.url;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteBase);
+
+const socialImageUrl = image ? new URL(image, siteBase) : undefined;
+---
+
+<title>{documentTitle}</title>
+
+<meta name="description" content={description} />
+
+<meta name="theme-color" content="#F6E9D9" />
+
+<link rel="canonical" href={canonicalUrl} />
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+
+<meta property="og:site_name" content={siteName} />
+
+<meta property="og:title" content={documentTitle} />
+
+<meta property="og:description" content={description} />
+
+<meta property="og:url" content={canonicalUrl} />
+
+{
+  socialImageUrl && (
+    <>
+      <meta property="og:image" content={socialImageUrl} />
+
+      <meta property="og:image:alt" content={`${title} — ${siteName}`} />
+    </>
+  )
+}
+
+<!-- X / Twitter -->
+<meta
+  name="twitter:card"
+  content={socialImageUrl ? "summary_large_image" : "summary"}
+/>
+
+<meta name="twitter:title" content={documentTitle} />
+
+<meta name="twitter:description" content={description} />
+
+{socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
