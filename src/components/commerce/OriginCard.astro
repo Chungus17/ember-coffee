@@ -1,0 +1,115 @@
+---
+import { ArrowRight, Mountain, Sprout } from "lucide-astro";
+import { Image } from "astro:assets";
+
+import type { Origin } from "../../types/origin";
+import { cn } from "../../utils/cn";
+
+interface Props {
+  origin: Origin;
+  class?: string;
+}
+
+const { origin, class: className } = Astro.props;
+
+const originUrl = `/origins/${origin.slug}`;
+---
+
+<article
+  class={cn(
+    "group flex h-full flex-col overflow-hidden",
+    "rounded-card border border-sage/25",
+    "bg-oat shadow-card",
+    "transition duration-300 ease-ember",
+    "hover:-translate-y-1 hover:shadow-card-hover",
+    "focus-within:-translate-y-1 focus-within:shadow-card-hover",
+    "motion-reduce:transform-none",
+    "motion-reduce:transition-none",
+    className,
+  )}
+>
+  <a
+    href={originUrl}
+    class="relative block overflow-hidden
+      focus-visible:outline focus-visible:outline-3
+      focus-visible:outline-offset-[-3px]
+      focus-visible:outline-sage"
+    aria-label={`Explore ${origin.region}, ${origin.country}`}
+  >
+    <Image
+      src={origin.image.src}
+      alt={origin.image.alt}
+      width="1200"
+      height="800"
+      loading="lazy"
+      decoding="async"
+      class="aspect-[3/2] w-full object-cover
+        transition duration-500 ease-ember
+        group-hover:scale-[1.025]
+        group-focus-within:scale-[1.025]
+        motion-reduce:transform-none
+        motion-reduce:transition-none"
+    />
+
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0
+        h-24 bg-gradient-to-t from-ink/65 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+
+    <p
+      class="absolute bottom-4 left-4
+        rounded-full bg-sage px-3 py-1.5
+        text-xs font-bold text-canvas"
+    >
+      {origin.country}
+    </p>
+  </a>
+
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <div class="space-y-5">
+      <div class="space-y-2">
+        <p
+          class="text-xs font-bold uppercase
+            tracking-[0.16em] text-sage"
+        >
+          Origin story
+        </p>
+
+        <h3 class="text-3xl leading-tight">
+          <a
+            href={originUrl}
+            class="rounded-control underline
+              decoration-transparent underline-offset-4
+              hover:decoration-current
+              focus-visible:outline-sage"
+          >
+            {origin.region}
+          </a>
+        </h3>
+      </div>
+
+      <p class="line-clamp-4 text-sm leading-relaxed text-ink/72">
+        {origin.story}
+      </p>
+    </div>
+
+    <a
+      href={originUrl}
+      class="mt-auto inline-flex min-h-11 items-center gap-2
+        self-start rounded-control pt-6
+        text-sm font-bold text-ink
+        underline decoration-transparent
+        underline-offset-4
+        transition duration-200 ease-ember
+        hover:text-sage hover:decoration-current
+        focus-visible:outline-sage
+        motion-reduce:transition-none"
+    >
+      Read the origin story
+
+      <ArrowRight size={17} strokeWidth={1.75} aria-hidden="true" />
+    </a>
+  </div>
+</article>

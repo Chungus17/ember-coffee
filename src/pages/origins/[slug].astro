@@ -1,0 +1,80 @@
+---
+import type { GetStaticPaths } from "astro";
+
+import Container from "../../components/ui/Container.astro";
+import { origins } from "../../data/origins";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const getStaticPaths = (() => {
+  return origins.map((origin) => ({
+    params: {
+      slug: origin.slug,
+    },
+
+    props: {
+      origin,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { origin } = Astro.props;
+---
+
+<BaseLayout
+  title={`${origin.region}, ${origin.country}`}
+  description={origin.story}
+  headerAppearance="light"
+  noindex
+>
+  <article class="py-section-sm sm:py-section">
+    <Container size="content">
+      <div class="space-y-8">
+        <header class="space-y-5">
+          <p
+            class="text-sm font-bold uppercase
+              tracking-[0.18em] text-sage"
+          >
+            {origin.country}
+          </p>
+
+          <h1>
+            {origin.region}
+          </h1>
+
+          <p class="measure-copy text-lg text-ink/72">
+            {origin.story}
+          </p>
+        </header>
+
+        <dl
+          class="grid gap-6 border-t border-ink/10 pt-8
+            sm:grid-cols-3"
+        >
+          <div>
+            <dt class="text-sm font-bold text-ink/55">Producer</dt>
+
+            <dd class="mt-2">
+              {origin.producer}
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-bold text-ink/55">Process</dt>
+
+            <dd class="mt-2">
+              {origin.process}
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-bold text-ink/55">Elevation</dt>
+
+            <dd class="mt-2">
+              {origin.elevation}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </Container>
+  </article>
+</BaseLayout>
