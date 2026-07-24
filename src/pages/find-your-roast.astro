@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+---
+
+<BaseLayout
+  title="Find Your Roast"
+  description="A guided coffee recommendation shaped around how you brew and the flavours you enjoy."
+  headerAppearance="dark"
+  noindex
+>
+  <section class="bg-canvas py-section-sm sm:py-section">
+    <Container size="content">
+      <div class="space-y-6">
+        <p
+          class="text-sm font-bold uppercase
+            tracking-[0.18em] text-clay"
+        >
+          Find Your Roast
+        </p>
+
+        <h1>Your coffee match is coming next.</h1>
+
+        <p class="measure-copy text-lg text-ink/70">
+          This route is ready for Ember’s seven-question recommendation flow.
+        </p>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

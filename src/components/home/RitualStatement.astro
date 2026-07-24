@@ -1,0 +1,108 @@
+---
+import Container from "../ui/Container.astro";
+
+interface Props {
+  eyebrow?: string;
+  statement: string;
+  supportingCopy?: string;
+}
+
+const {
+  eyebrow = "Ritual over routine",
+  statement,
+  supportingCopy,
+} = Astro.props;
+---
+
+<section
+  class="relative isolate overflow-hidden
+    bg-canvas py-section
+    sm:py-section-lg
+    lg:py-32"
+  aria-labelledby="ritual-statement-title"
+>
+  <!-- Decorative coffee-ring motif -->
+  <div
+    class="pointer-events-none absolute
+      -right-24 top-1/2 -z-10
+      size-72 -translate-y-1/2
+      rounded-full border border-clay/15
+      sm:-right-16 sm:size-96
+      lg:right-8 lg:size-[30rem]"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-[12%]
+        rounded-full border border-clay/10">
+    </div>
+
+    <div class="absolute inset-[27%]
+        rounded-full border border-clay/10">
+    </div>
+  </div>
+
+  <!-- Restrained topographic lines -->
+  <svg
+    class="pointer-events-none absolute
+      -left-24 bottom-0 -z-10
+      h-56 w-[32rem]
+      text-sage/12
+      sm:h-72 sm:w-[42rem]
+      lg:-left-8 lg:h-80 lg:w-[48rem]"
+    viewBox="0 0 800 320"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M-20 230C70 165 145 270 235 205C325 140 410 245 505 175C600 105 690 215 825 115"
+      stroke="currentColor"
+      stroke-width="1.5"></path>
+    <path
+      d="M-20 255C70 190 145 295 235 230C325 165 410 270 505 200C600 130 690 240 825 140"
+      stroke="currentColor"
+      stroke-width="1.5"></path>
+    <path
+      d="M-20 280C70 215 145 320 235 255C325 190 410 295 505 225C600 155 690 265 825 165"
+      stroke="currentColor"
+      stroke-width="1.5"></path>
+  </svg>
+
+  <Container>
+    <div class="mx-auto max-w-[62rem]
+        text-center">
+      <p
+        class="mb-6
+          text-xs font-bold uppercase tracking-[0.2em]
+          text-clay
+          sm:text-sm"
+      >
+        {eyebrow}
+      </p>
+
+      <h2
+        id="ritual-statement-title"
+        class="mx-auto max-w-[15ch]
+          text-[clamp(2.75rem,7vw,6.5rem)]
+          leading-[0.98]
+          tracking-[-0.04em]
+          text-ink"
+      >
+        {statement}
+      </h2>
+
+      {
+        supportingCopy && (
+          <p
+            class="
+              mx-auto mt-8 max-w-[42rem]
+              text-base leading-relaxed text-ink/70
+              sm:text-lg
+            "
+          >
+            {supportingCopy}
+          </p>
+        )
+      }
+    </div>
+  </Container>
+</section>

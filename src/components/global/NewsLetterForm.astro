@@ -1,0 +1,144 @@
+---
+import { ArrowRight } from "lucide-astro";
+
+import Button from "../ui/Button.astro";
+
+interface Props {
+  id?: string;
+  action?: string;
+  class?: string;
+}
+
+const {
+  id = "footer-newsletter",
+  action = "/newsletter",
+  class: className,
+} = Astro.props;
+
+const inputId = `${id}-email`;
+const hintId = `${id}-hint`;
+const errorId = `${id}-error`;
+---
+
+<form
+  id={id}
+  class:list={["space-y-4", className]}
+  method="post"
+  action={action}
+  novalidate
+  data-newsletter-form
+>
+  <div class="space-y-2">
+    <label for={inputId} class="block text-sm font-semibold text-canvas">
+      Email address
+    </label>
+
+    <div class="flex flex-col gap-3 sm:flex-row">
+      <input
+        id={inputId}
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        required
+        aria-describedby={`${hintId} ${errorId}`}
+        class="min-h-12 w-full rounded-control
+          border border-canvas/35 bg-canvas/10
+          px-4 py-3 text-base text-canvas
+          placeholder:text-canvas/55
+          transition duration-200 ease-ember
+          hover:border-canvas/60
+          focus:border-canvas
+          focus-visible:outline-canvas
+          disabled:cursor-not-allowed disabled:opacity-50
+          motion-reduce:transition-none"
+        placeholder="you@example.com"
+      />
+
+      <Button type="submit" variant="inverse" class="shrink-0 sm:min-w-36">
+        Join the list
+
+        <ArrowRight size={18} strokeWidth={1.75} aria-hidden="true" />
+      </Button>
+    </div>
+
+    <p id={hintId} class="text-sm leading-relaxed text-canvas/70">
+      Occasional notes on new coffees, brewing and monthly releases.
+    </p>
+
+    <p
+      id={errorId}
+      class="min-h-5 text-sm font-semibold text-oat"
+      role="alert"
+      aria-live="polite"
+      data-newsletter-error
+    >
+    </p>
+  </div>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>(
+    "[data-newsletter-form]",
+  );
+
+  forms.forEach((form) => {
+    if (form.dataset.enhanced === "true") {
+      return;
+    }
+
+    form.dataset.enhanced = "true";
+
+    const emailInput = form.querySelector<HTMLInputElement>(
+      'input[type="email"]',
+    );
+
+    const errorRegion = form.querySelector<HTMLElement>(
+      "[data-newsletter-error]",
+    );
+
+    if (!emailInput || !errorRegion) {
+      return;
+    }
+
+    const showError = (message: string): void => {
+      errorRegion.textContent = message;
+      emailInput.setAttribute("aria-invalid", "true");
+    };
+
+    const clearError = (): void => {
+      errorRegion.textContent = "";
+      emailInput.removeAttribute("aria-invalid");
+    };
+
+    emailInput.addEventListener("input", clearError);
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearError();
+
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        showError("Enter your email address.");
+        emailInput.focus();
+        return;
+      }
+
+      if (!emailInput.validity.valid) {
+        showError("Enter a valid email address.");
+        emailInput.focus();
+        return;
+      }
+
+      /*
+       * Submission is intentionally mocked during the portfolio build.
+       * Replace this branch with a real endpoint when one is selected.
+       */
+      errorRegion.textContent = "Thanks — you are on the Ember list.";
+
+      emailInput.removeAttribute("aria-invalid");
+      form.reset();
+    });
+  });
+</script>

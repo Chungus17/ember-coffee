@@ -1,0 +1,199 @@
+---
+import { ArrowRight, Coffee, Droplets, Sparkles } from "lucide-astro";
+
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+---
+
+<section
+  class="relative isolate overflow-hidden
+    bg-ink py-section-sm text-canvas
+    sm:py-section
+    lg:py-section-lg"
+  aria-labelledby="quiz-promo-title"
+>
+  <!-- Decorative flame/ring motif -->
+  <div
+    class="pointer-events-none absolute
+      -right-24 -top-24 -z-10
+      size-80 rounded-full
+      border border-canvas/10
+      sm:size-[28rem]
+      lg:right-8 lg:top-1/2 lg:-translate-y-1/2"
+    aria-hidden="true"
+  >
+    <div
+      class="absolute inset-[14%]
+        rounded-full border border-canvas/8"
+    >
+    </div>
+
+    <div
+      class="absolute inset-[30%]
+        rounded-full border border-canvas/8"
+    >
+    </div>
+  </div>
+
+  <Container>
+    <div
+      class="grid gap-12
+        lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)]
+        lg:items-center lg:gap-16"
+    >
+      <div class="max-w-[46rem] space-y-7">
+        <p
+          class="text-xs font-bold uppercase
+            tracking-[0.2em] text-oat
+            sm:text-sm"
+        >
+          Find your roast
+        </p>
+
+        <div class="space-y-5">
+          <h2
+            id="quiz-promo-title"
+            class="max-w-[12ch]
+              text-[clamp(2.75rem,6vw,5.75rem)]
+              leading-[0.96]
+              tracking-[-0.04em]"
+          >
+            Your preferences are more useful than coffee jargon.
+          </h2>
+
+          <p
+            class="max-w-[38rem]
+              text-base leading-relaxed text-canvas/78
+              sm:text-lg"
+          >
+            Tell us how you brew, which flavours you enjoy and how bold you like
+            your coffee. We will point you toward a coffee that fits.
+          </p>
+        </div>
+
+        <Button href="/find-your-roast" variant="inverse" size="lg">
+          Find your roast
+
+          <ArrowRight size={19} strokeWidth={1.75} aria-hidden="true" />
+        </Button>
+      </div>
+
+      <div
+        class="rounded-feature
+          border border-canvas/15
+          bg-canvas/6 p-5
+          shadow-overlay
+          sm:p-7"
+        aria-label="Quiz preview"
+      >
+        <div class="space-y-6">
+          <div
+            class="flex items-center justify-between gap-4
+              border-b border-canvas/12 pb-5"
+          >
+            <div>
+              <p class="text-sm font-semibold text-canvas">
+                A short guided match
+              </p>
+
+              <p class="mt-1 text-sm text-canvas/60">Seven simple questions</p>
+            </div>
+
+            <span
+              class="rounded-full bg-clay
+                px-3 py-1.5
+                text-xs font-bold text-canvas"
+            >
+              About 2 minutes
+            </span>
+          </div>
+
+          <ol class="space-y-3">
+            <li
+              class="flex items-center gap-4
+                rounded-panel bg-canvas/8
+                px-4 py-4"
+            >
+              <span
+                class="inline-flex size-10 shrink-0
+                  items-center justify-center
+                  rounded-full bg-canvas text-ink"
+                aria-hidden="true"
+              >
+                <Coffee size={19} strokeWidth={1.75} />
+              </span>
+
+              <div>
+                <p class="font-semibold text-canvas">How do you brew?</p>
+
+                <p class="text-sm text-canvas/60">
+                  Filter, espresso or immersion
+                </p>
+              </div>
+            </li>
+
+            <li
+              class="flex items-center gap-4
+                rounded-panel bg-canvas/8
+                px-4 py-4"
+            >
+              <span
+                class="inline-flex size-10 shrink-0
+                  items-center justify-center
+                  rounded-full bg-canvas text-ink"
+                aria-hidden="true"
+              >
+                <Sparkles size={19} strokeWidth={1.75} />
+              </span>
+
+              <div>
+                <p class="font-semibold text-canvas">
+                  Which flavours sound good?
+                </p>
+
+                <p class="text-sm text-canvas/60">
+                  Fruity, floral, chocolatey or bold
+                </p>
+              </div>
+            </li>
+
+            <li
+              class="flex items-center gap-4
+                rounded-panel bg-canvas/8
+                px-4 py-4"
+            >
+              <span
+                class="inline-flex size-10 shrink-0
+                  items-center justify-center
+                  rounded-full bg-canvas text-ink"
+                aria-hidden="true"
+              >
+                <Droplets size={19} strokeWidth={1.75} />
+              </span>
+
+              <div>
+                <p class="font-semibold text-canvas">
+                  How intense do you like it?
+                </p>
+
+                <p class="text-sm text-canvas/60">Bright, balanced or bold</p>
+              </div>
+            </li>
+          </ol>
+
+          <div
+            class="flex items-center gap-2
+              pt-1"
+            aria-hidden="true"
+          >
+            <span class="h-1.5 flex-1 rounded-full bg-clay"></span>
+            <span class="h-1.5 flex-1 rounded-full bg-canvas/20"></span>
+            <span class="h-1.5 flex-1 rounded-full bg-canvas/20"></span>
+            <span class="h-1.5 flex-1 rounded-full bg-canvas/20"></span>
+            <span class="h-1.5 flex-1 rounded-full bg-canvas/20"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

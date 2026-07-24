@@ -1,0 +1,117 @@
+---
+import { Image } from "astro:assets";
+import { ArrowRight } from "lucide-astro";
+
+import heroImage from "../../assets/images/hero/ember-hero.jpg";
+import { homeHero } from "../../data/home";
+
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+---
+
+<section
+  class="relative isolate flex min-h-[42rem] overflow-hidden
+    bg-ink text-canvas
+    sm:min-h-[46rem]
+    lg:min-h-[50rem]
+    xl:min-h-[54rem]"
+  aria-labelledby="home-hero-title"
+>
+  <Image
+    src={heroImage}
+    alt={homeHero.imageAlt}
+    layout="full-width"
+    priority
+    fit="cover"
+    position="center"
+    quality="high"
+    class="absolute inset-0 -z-30
+      size-full object-cover"
+  />
+
+  <!--
+    Mobile receives a stronger full-frame overlay because the text occupies
+    more of the image. Desktop shifts the strongest contrast toward the left.
+  -->
+  <div
+    class="absolute inset-0 -z-20
+      bg-ink/55
+      lg:bg-transparent
+      lg:bg-[linear-gradient(90deg,rgba(41,21,16,0.92)_0%,rgba(41,21,16,0.76)_38%,rgba(41,21,16,0.28)_68%,rgba(41,21,16,0.12)_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Subtle bottom shade helps the hero transition into the next section. -->
+  <div
+    class="absolute inset-x-0 bottom-0 -z-10 h-40
+      bg-gradient-to-t from-ink/35 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+
+  <Container
+    class="relative flex w-full items-end
+      pb-14 pt-36
+      sm:pb-16 sm:pt-40
+      lg:items-center lg:pb-20 lg:pt-36
+      xl:pb-24"
+  >
+    <div class="max-w-[46rem] space-y-7 sm:space-y-8">
+      <p
+        class="text-xs font-bold uppercase tracking-[0.2em]
+          text-oat
+          sm:text-sm"
+      >
+        {homeHero.eyebrow}
+      </p>
+
+      <div class="space-y-5">
+        <h1
+          id="home-hero-title"
+          class="max-w-[11ch]
+            text-[clamp(3.25rem,9vw,7.5rem)]
+            leading-[0.9] tracking-[-0.045em]"
+        >
+          {homeHero.title}
+        </h1>
+
+        <p
+          class="max-w-[38rem]
+            text-base leading-relaxed text-canvas/90
+            sm:text-lg
+            lg:text-xl"
+        >
+          {homeHero.copy}
+        </p>
+      </div>
+
+      <div
+        class="flex flex-col items-start gap-3
+          sm:flex-row sm:flex-wrap sm:items-center"
+      >
+        <Button
+          href={homeHero.primaryAction.href}
+          variant="inverse"
+          size="lg"
+          class="w-full shadow-card
+            sm:w-auto"
+        >
+          {homeHero.primaryAction.label}
+
+          <ArrowRight size={19} strokeWidth={1.75} aria-hidden="true" />
+        </Button>
+
+        <Button
+          href={homeHero.secondaryAction.href}
+          variant="inverse-text"
+          size="lg"
+          class="w-full justify-start
+    sm:w-auto sm:justify-center"
+        >
+          {homeHero.secondaryAction.label}
+        </Button>
+      </div>
+    </div>
+  </Container>
+</section>

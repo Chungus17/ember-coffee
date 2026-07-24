@@ -1,0 +1,46 @@
+---
+import { ArrowRight } from "lucide-astro";
+
+import { site } from "../../data/site";
+
+const announcement = site.announcement;
+---
+
+{
+  announcement && (
+    <aside
+      class="relative z-(--z-raised) bg-ink text-canvas"
+      aria-label="Site announcement"
+    >
+      <div
+        class="
+          mx-auto flex min-h-10 max-w-site
+          flex-wrap items-center justify-center
+          gap-x-2 gap-y-1
+          px-4 py-2
+          text-center text-xs leading-5
+          sm:min-h-11 sm:flex-nowrap sm:px-6 sm:text-sm
+          lg:px-8
+        "
+      >
+        <p>{announcement.message}</p>
+
+        <a
+          href={announcement.href}
+          class="
+            inline-flex shrink-0 items-center gap-1
+            font-semibold underline
+            decoration-canvas/60 underline-offset-4
+            transition duration-200 ease-ember
+            hover:decoration-canvas
+            focus-visible:outline-canvas
+          "
+        >
+          {announcement.linkText}
+
+          <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+        </a>
+      </div>
+    </aside>
+  )
+}

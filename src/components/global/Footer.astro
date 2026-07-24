@@ -1,0 +1,213 @@
+---
+import { Instagram, Youtube, ArrowUpRight } from "lucide-astro";
+
+import {
+  footerNavigation,
+  policyNavigation,
+  socialNavigation,
+} from "../../data/navigation";
+
+import Container from "../ui/Container.astro";
+import Logo from "./Logo.astro";
+import NewsLetterForm from "./NewsLetterForm.astro";
+
+const currentYear = new Date().getFullYear();
+
+const socialIcons = {
+  Instagram,
+  YouTube: Youtube,
+};
+---
+
+<footer class="bg-ink text-canvas">
+  <Container class="py-section-sm lg:py-section">
+    <div
+      class="grid gap-12
+        lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.95fr)]
+        lg:gap-16"
+    >
+      <div class="max-w-content space-y-8">
+        <Logo tone="inverse" class="w-fit" />
+
+        <div class="space-y-4">
+          <p
+            class="font-display text-3xl font-semibold leading-tight sm:text-4xl"
+          >
+            Coffee worth slowing down for.
+          </p>
+
+          <p class="measure-copy text-base leading-relaxed text-canvas/75">
+            Thoughtfully sourced coffee, clear guidance and a quieter way to
+            discover the flavours you enjoy.
+          </p>
+        </div>
+
+        <section
+          class="max-w-xl space-y-4"
+          aria-labelledby="footer-newsletter-title"
+        >
+          <div class="space-y-2">
+            <h2 id="footer-newsletter-title" class="text-2xl">
+              Notes from Ember
+            </h2>
+
+            <p class="text-sm leading-relaxed text-canvas/75">
+              New harvests, practical brewing advice and the occasional reason
+              to make more time for coffee.
+            </p>
+          </div>
+
+          <NewsLetterForm />
+        </section>
+      </div>
+
+      <nav
+        aria-label="Footer navigation"
+        class="grid grid-cols-2 gap-x-6 gap-y-10
+          sm:grid-cols-4"
+      >
+        {
+          footerNavigation.map((group) => {
+            const headingId = `footer-${group.title
+              .toLowerCase()
+              .replaceAll(" ", "-")}`;
+
+            return (
+              <section aria-labelledby={headingId}>
+                <h2
+                  id={headingId}
+                  class="
+                    mb-4 font-sans text-sm font-bold
+                    uppercase tracking-[0.16em] text-oat
+                  "
+                >
+                  {group.title}
+                </h2>
+
+                <ul class="space-y-3">
+                  {group.links.map((item) => (
+                    <li>
+                      <a
+                        href={item.href}
+                        class="
+                          inline-flex min-h-6 items-center
+                          text-sm leading-relaxed text-canvas/75
+                          underline decoration-transparent
+                          underline-offset-4
+                          transition duration-200 ease-ember
+                          hover:text-canvas hover:decoration-current
+                          focus-visible:outline-canvas
+                          motion-reduce:transition-none
+                        "
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })
+        }
+      </nav>
+    </div>
+
+    <div
+      class="mt-12 flex flex-col gap-8
+        border-t border-canvas/15 pt-8
+        lg:mt-16"
+    >
+      <div
+        class="flex flex-col gap-6
+          sm:flex-row sm:items-center sm:justify-between"
+      >
+        <nav aria-label="Social media">
+          <ul class="flex flex-wrap items-center gap-3">
+            {
+              socialNavigation.map((item) => {
+                const Icon =
+                  socialIcons[item.label as keyof typeof socialIcons];
+
+                return (
+                  <li>
+                    <a
+                      href={item.href}
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noreferrer noopener" : undefined}
+                      class="
+                        inline-flex min-h-11 items-center gap-2
+                        rounded-control px-3 py-2
+                        text-sm font-semibold text-canvas/80
+                        transition duration-200 ease-ember
+                        hover:bg-canvas/10 hover:text-canvas
+                        focus-visible:outline-canvas
+                        motion-reduce:transition-none
+                      "
+                    >
+                      {Icon && (
+                        <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
+                      )}
+
+                      {item.label}
+
+                      {item.external && (
+                        <ArrowUpRight
+                          size={14}
+                          strokeWidth={1.75}
+                          aria-hidden="true"
+                        />
+                      )}
+
+                      {item.external && (
+                        <span class="sr-only"> — opens in a new tab</span>
+                      )}
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+
+        <nav aria-label="Legal and policy links">
+          <ul class="flex flex-wrap gap-x-5 gap-y-3">
+            {
+              policyNavigation.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="
+                      text-sm text-canvas/65
+                      underline decoration-transparent
+                      underline-offset-4
+                      transition duration-200 ease-ember
+                      hover:text-canvas hover:decoration-current
+                      focus-visible:outline-canvas
+                      motion-reduce:transition-none
+                    "
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <div
+        class="flex flex-col gap-2
+          text-sm leading-relaxed text-canvas/55
+          sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p>
+          © {currentYear} Ember Specialty Coffee.
+        </p>
+
+        <p>
+          Portfolio concept designed and built as a complete brand experience.
+        </p>
+      </div>
+    </div>
+  </Container>
+</footer>

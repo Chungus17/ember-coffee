@@ -1,0 +1,42 @@
+---
+import { featuredProducts } from "../../data/products";
+
+import ProductCard from "../commerce/ProductCard.astro";
+import Button from "../ui/Button.astro";
+import Container from "../ui/Container.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const productsToDisplay = featuredProducts.slice(0, 4);
+---
+
+<section
+  class="bg-canvas py-section-sm sm:py-section"
+  aria-labelledby="featured-collection-title"
+>
+  <Container class="space-y-10 sm:space-y-12">
+    <div
+      class="flex flex-col gap-6
+        lg:flex-row lg:items-end lg:justify-between"
+    >
+      <SectionHeading
+        eyebrow="Featured coffees"
+        title="Four coffees, four distinct ways to slow down."
+        copy="From bright, fruit-led filters to balanced everyday cups, each coffee is selected to make choosing feel clear."
+        width="standard"
+        class="max-w-[48rem]"
+      />
+
+      <Button href="/shop" variant="text" class="self-start lg:self-auto">
+        Explore all coffee
+      </Button>
+    </div>
+
+    <div
+      class="grid items-stretch gap-6
+        sm:grid-cols-2
+        xl:grid-cols-4"
+    >
+      {productsToDisplay.map((product) => <ProductCard product={product} />)}
+    </div>
+  </Container>
+</section>

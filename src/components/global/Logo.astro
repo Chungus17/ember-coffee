@@ -1,0 +1,61 @@
+---
+import { cn } from "../../utils/cn";
+
+interface Props {
+  /**
+   * Default uses the original brand artwork.
+   * Inverse converts the mark into a one-colour light treatment.
+   */
+  tone?: "default" | "inverse";
+
+  /**
+   * Compact renders the square flame-and-bean icon.
+   */
+  variant?: "horizontal" | "compact";
+
+  href?: string;
+  class?: string;
+}
+
+const {
+  tone = "default",
+  variant = "horizontal",
+  href = "/",
+  class: className,
+} = Astro.props;
+
+const isCompact = variant === "compact";
+
+const source = isCompact
+  ? "/images/brand/EmberLogoIcon.png"
+  : "/images/brand/EmberLogoHorizontal.png";
+
+const width = isCompact ? 664 : 1159;
+const height = isCompact ? 664 : 529;
+---
+
+<a
+  href={href}
+  class={cn(
+    "inline-flex shrink-0 rounded-control",
+    "focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4",
+    tone === "inverse"
+      ? "focus-visible:outline-canvas"
+      : "focus-visible:outline-clay",
+    className,
+  )}
+  aria-label="Ember Specialty Coffee — home"
+>
+  <img
+    src={source}
+    width={width}
+    height={height}
+    alt=""
+    class={cn(
+      "block h-auto object-contain",
+      isCompact ? "w-10" : "w-28 sm:w-32 lg:w-36",
+      tone === "inverse" && "brightness-0 invert",
+    )}
+    decoding="async"
+  />
+</a>

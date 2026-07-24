@@ -1,62 +1,24 @@
 ---
-import { Search, ShoppingBag } from "lucide-astro";
+import Hero from "../components/home/Hero.astro";
+import RitualStatement from "../components/home/RitualStatement.astro";
+import FeaturedCollection from "../components/home/FeaturedCollection.astro";
+import QuizPromo from "../components/home/QuizPromo.astro";
 
+import { ritualStatement } from "../data/home";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Button from "../components/ui/Button.astro";
-import Container from "../components/ui/Container.astro";
-import IconButton from "../components/ui/IconButton.astro";
-import SectionHeading from "../components/ui/SectionHeading.astro";
 ---
 
 <BaseLayout
-  title="Interface Primitives"
-  description="A development preview of Ember's foundational interface components."
-  noindex
+  title="Ember Specialty Coffee"
+  description="Thoughtfully sourced and carefully roasted coffee worth slowing down for."
+  headerAppearance="transparent"
 >
-  <section class="py-section-sm">
-    <Container class="space-y-12">
-      <SectionHeading
-        level="h1"
-        eyebrow="Ember design system"
-        title="Primitive interface components"
-        copy="A development preview for validating reusable controls before page-specific sections are introduced."
-      />
-
-      <div class="flex flex-wrap items-center gap-4">
-        <Button href="/shop"> Primary </Button>
-
-        <Button href="/find-your-roast" variant="secondary"> Secondary </Button>
-
-        <Button href="/origins" variant="text"> Text </Button>
-
-        <Button disabled> Disabled </Button>
-
-        <IconButton label="Search">
-          <Search size={20} strokeWidth={1.75} aria-hidden="true" />
-        </IconButton>
-
-        <IconButton label="View cart" variant="outline">
-          <ShoppingBag size={20} strokeWidth={1.75} aria-hidden="true" />
-        </IconButton>
-      </div>
-    </Container>
-  </section>
-
-  <section class="bg-ink py-section-sm text-canvas">
-    <Container class="space-y-10">
-      <SectionHeading
-        eyebrow="Dark surface"
-        title="Coffee worth slowing down for."
-        copy="Inverse controls must remain legible and clearly interactive on espresso surfaces."
-      />
-
-      <div class="flex flex-wrap items-center gap-4">
-        <Button href="/shop" variant="inverse"> Inverse </Button>
-
-        <IconButton label="Search" variant="inverse">
-          <Search size={20} strokeWidth={1.75} aria-hidden="true" />
-        </IconButton>
-      </div>
-    </Container>
-  </section>
+  <Hero />
+  <RitualStatement
+    eyebrow={ritualStatement.eyebrow}
+    statement={ritualStatement.statement}
+    supportingCopy={ritualStatement.supportingCopy}
+  />
+  <FeaturedCollection />
+  <QuizPromo />
 </BaseLayout>

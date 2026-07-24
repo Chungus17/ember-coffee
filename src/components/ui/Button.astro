@@ -1,7 +1,7 @@
 ---
 import { cn } from "../../utils/cn";
 
-type Variant = "primary" | "secondary" | "text" | "inverse";
+type Variant = "primary" | "secondary" | "text" | "inverse" | "inverse-text";
 type Size = "sm" | "md" | "lg";
 type ButtonType = "button" | "submit" | "reset";
 
@@ -81,6 +81,13 @@ const variantClasses: Record<Variant, string> = {
     "bg-canvas text-ink",
     "hover:bg-oat",
     "active:translate-y-px active:bg-brand",
+    "focus-visible:outline-canvas",
+  ),
+  "inverse-text": cn(
+    "rounded-none text-canvas underline decoration-transparent",
+    "underline-offset-4",
+    "hover:text-oat hover:decoration-current",
+    "active:text-canvas/75",
     "focus-visible:outline-canvas",
   ),
 };

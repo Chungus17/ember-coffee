@@ -1,0 +1,142 @@
+---
+import { Search, UserRound, ShoppingBag } from "lucide-astro";
+
+import { primaryNavigation } from "../../data/navigation";
+import { cn } from "../../utils/cn";
+
+import Container from "../ui/Container.astro";
+import IconButton from "../ui/IconButton.astro";
+import Logo from "./Logo.astro";
+import MobileMenu from "./MobileMenu";
+
+type Appearance = "transparent" | "light" | "dark";
+
+interface Props {
+  appearance?: Appearance;
+  class?: string;
+}
+
+const { appearance = "light", class: className } = Astro.props;
+
+const pathname = Astro.url.pathname;
+
+function normalizePath(path: string): string {
+  if (path === "/") {
+    return path;
+  }
+
+  return path.replace(/\/+$/, "");
+}
+
+function isCurrentRoute(href: string): boolean {
+  const current = normalizePath(pathname);
+  const destination = normalizePath(href);
+
+  return current === destination || current.startsWith(`${destination}/`);
+}
+
+const isInverse = appearance === "transparent" || appearance === "dark";
+
+const appearanceClasses: Record<Appearance, string> = {
+  transparent: cn("absolute inset-x-0 top-0", "bg-transparent text-canvas"),
+
+  light: cn("relative", "border-b border-ink/10", "bg-canvas text-ink"),
+
+  dark: cn("relative", "border-b border-canvas/15", "bg-ink text-canvas"),
+};
+---
+
+<header
+  class={cn("z-(--z-header) w-full", appearanceClasses[appearance], className)}
+  data-header-appearance={appearance}
+>
+  <Container
+    class="flex min-h-20 items-center justify-between gap-6
+      py-3
+      lg:min-h-24"
+  >
+    <Logo tone={isInverse ? "inverse" : "default"} />
+
+    <nav class="hidden lg:block" aria-label="Primary navigation">
+      <ul class="flex items-center gap-1">
+        {
+          primaryNavigation.map((item) => {
+            const current = isCurrentRoute(item.href);
+
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={current ? "page" : undefined}
+                  class={cn(
+                    "relative inline-flex min-h-11 items-center",
+                    "rounded-control px-3 py-2",
+                    "text-sm font-semibold",
+                    "transition duration-200 ease-ember",
+                    "focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2",
+                    isInverse
+                      ? cn(
+                          "text-canvas/90",
+                          "hover:bg-canvas/10 hover:text-canvas",
+                          "focus-visible:outline-canvas",
+                        )
+                      : cn(
+                          "text-ink/85",
+                          "hover:bg-oat hover:text-ink",
+                          "focus-visible:outline-clay",
+                        ),
+                    current &&
+                      (isInverse
+                        ? "bg-canvas/10 text-canvas"
+                        : "bg-oat text-ink"),
+                  )}
+                >
+                  {item.label}
+
+                  {current && (
+                    <span
+                      class={cn(
+                        "absolute inset-x-3 bottom-1 h-0.5 rounded-full",
+                        isInverse ? "bg-canvas" : "bg-clay",
+                      )}
+                      aria-hidden="true"
+                    />
+                  )}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1">
+      <IconButton
+        href="/search"
+        label="Search"
+        variant={isInverse ? "inverse" : "plain"}
+      >
+        <Search size={20} strokeWidth={1.75} aria-hidden="true" />
+      </IconButton>
+
+      <IconButton
+        href="/account"
+        label="Account"
+        variant={isInverse ? "inverse" : "plain"}
+        class="hidden sm:inline-flex"
+      >
+        <UserRound size={20} strokeWidth={1.75} aria-hidden="true" />
+      </IconButton>
+
+      <IconButton
+        href="/cart"
+        label="View cart"
+        variant={isInverse ? "inverse" : "plain"}
+      >
+        <ShoppingBag size={20} strokeWidth={1.75} aria-hidden="true" />
+      </IconButton>
+
+      <MobileMenu currentPath={pathname} appearance={appearance} client:load />
+    </div>
+  </Container>
+</header>

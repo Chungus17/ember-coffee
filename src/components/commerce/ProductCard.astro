@@ -1,0 +1,206 @@
+---
+import { Image } from "astro:assets";
+import { ArrowRight } from "lucide-astro";
+
+import type { Product } from "../../types/product";
+import { cn } from "../../utils/cn";
+
+import FlavorTag from "../ui/FlavorTag.astro";
+import RoastMeter from "./RoastMeter.astro";
+
+interface Props {
+  product: Product;
+  appearance?: "default" | "compact";
+  class?: string;
+}
+
+const { product, appearance = "default", class: className } = Astro.props;
+
+const productUrl = `/shop/${product.slug}`;
+
+const formattedPrice = new Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: product.currency,
+}).format(product.price / 100);
+
+const availabilityLabels: Record<Product["availability"], string> = {
+  available: "Available",
+  "low-stock": "Limited availability",
+  "sold-out": "Sold out",
+  "coming-soon": "Coming soon",
+};
+
+const showAvailability = product.availability !== "available";
+---
+
+<article
+  class={cn(
+    "group flex h-full flex-col overflow-hidden",
+    "rounded-card bg-oat shadow-card",
+    "transition duration-300 ease-ember",
+    "hover:-translate-y-1 hover:shadow-card-hover",
+    "focus-within:-translate-y-1 focus-within:shadow-card-hover",
+    "motion-reduce:transform-none",
+    "motion-reduce:transition-none",
+    className,
+  )}
+>
+  <div class="relative overflow-hidden">
+    <a
+      href={productUrl}
+      class="block
+        focus-visible:outline focus-visible:outline-3
+        focus-visible:outline-offset-[-3px]
+        focus-visible:outline-clay"
+      aria-label={`View ${product.name}`}
+    >
+      <Image
+        src={product.image.src}
+        alt={product.image.alt}
+        widths={[480, 640, 800, 960]}
+        sizes="
+          (min-width: 1280px) 22vw,
+          (min-width: 768px) 45vw,
+          92vw
+        "
+        loading="lazy"
+        decoding="async"
+        quality="high"
+        class="aspect-[4/5] w-full object-cover
+          transition duration-500 ease-ember
+          group-hover:scale-[1.025]
+          group-focus-within:scale-[1.025]
+          motion-reduce:transform-none
+          motion-reduce:transition-none"
+      />
+    </a>
+
+    {
+      showAvailability && (
+        <span
+          class={cn(
+            "absolute left-4 top-4",
+            "rounded-full px-3 py-1.5",
+            "text-xs font-bold shadow-card",
+            product.availability === "sold-out"
+              ? "bg-ink text-canvas"
+              : "bg-canvas text-ink",
+          )}
+        >
+          {availabilityLabels[product.availability]}
+        </span>
+      )
+    }
+
+    <!-- Keeps the overlaid price and action readable on every image. -->
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0
+        h-36
+        bg-gradient-to-t from-ink/90 via-ink/55 to-transparent"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div
+      class="absolute inset-x-0 bottom-0
+        flex items-end justify-between gap-4
+        p-4 sm:p-5
+        text-canvas"
+    >
+      <div>
+        <p class="text-xs font-medium text-canvas/75">250g</p>
+
+        <p class="text-xl font-bold text-canvas">
+          {formattedPrice}
+        </p>
+      </div>
+
+      <a
+        href={productUrl}
+        class="inline-flex min-h-11 items-center gap-2
+          rounded-control
+          bg-canvas px-4 py-2
+          text-sm font-bold text-ink
+          shadow-card
+          transition duration-200 ease-ember
+          hover:bg-oat
+          active:translate-y-px
+          focus-visible:outline-canvas
+          motion-reduce:transition-none"
+      >
+        View coffee
+
+        <ArrowRight size={17} strokeWidth={1.75} aria-hidden="true" />
+      </a>
+    </div>
+  </div>
+
+  <div
+    class={cn(
+      "flex flex-1 flex-col",
+      appearance === "compact" ? "p-5" : "p-5 sm:p-6",
+    )}
+  >
+    <div class="space-y-4">
+      <div class="space-y-2">
+        <p
+          class="text-xs font-bold uppercase
+            tracking-[0.15em] text-clay"
+        >
+          {product.country} · {product.region}
+        </p>
+
+        <h3 class="text-[clamp(1.6rem,2.3vw,2rem)]
+            leading-tight">
+          <a
+            href={productUrl}
+            class="rounded-control
+              underline decoration-transparent
+              underline-offset-4
+              hover:decoration-current
+              focus-visible:outline-clay"
+          >
+            {product.name}
+          </a>
+        </h3>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        {product.tastingNotes.map((note) => <FlavorTag label={note} />)}
+      </div>
+
+      <dl
+        class="mt-auto grid grid-cols-2
+          gap-x-4 gap-y-3
+          border-t border-ink/10 pt-4
+          text-sm"
+      >
+        <div>
+          <dt
+            class="text-xs font-semibold uppercase
+              tracking-wide text-ink/55"
+          >
+            Process
+          </dt>
+
+          <dd class="mt-1 font-semibold text-ink">
+            {product.process}
+          </dd>
+        </div>
+
+        <div>
+          <dt
+            class="text-xs font-semibold uppercase
+              tracking-wide text-ink/55"
+          >
+            Roast
+          </dt>
+
+          <dd class="mt-1">
+            <RoastMeter roast={product.roast} compact />
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</article>
